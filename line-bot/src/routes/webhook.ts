@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { replyMessage, getUserProfile } from '@/services/line';
 import { chat } from '@/services/lang-chain';
+import { LineUser, lineUserProfileToLineUser, upsertUserProfile } from '@/database/mysql/line_users';
 
 const router = Router();
 
@@ -16,7 +17,9 @@ router.post('/', (req: Request, res: Response) => {
 });
 
 async function handleEvent(event: any) {
-    console.log('Handling event:', event);
+    const userProfile: LineUser = lineUserProfileToLineUser(await getUserProfile(event.source.userId));
+
+    await upsertUserProfile(userProfile);
 
     if (event.type !== 'message' || event.message.type !== 'text') {
         const messages = [{
@@ -31,8 +34,6 @@ async function handleEvent(event: any) {
         return;
     }
 
-    const userProfile = await getUserProfile(event.source.userId);
-    console.log('User Profile:', userProfile);
 
     // Example: Reply with user's display name
     const replyText = userProfile

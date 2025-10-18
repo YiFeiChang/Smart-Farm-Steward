@@ -1,4 +1,5 @@
-import { ConnectionOptions, createConnection, createPool } from 'mysql2/promise';
+import { ConnectionOptions, createConnection, createPool, PoolConnection } from 'mysql2/promise';
+import { createLineUsersTableSql } from './line_users';
 
 const
     userConnectionOptions: ConnectionOptions = {
@@ -11,6 +12,7 @@ const
     userPool = createPool(userConnectionOptions);
 
 export async function initDatabase() {
+    console.log(`[${new Date().toISOString()}] [INFO] [initDatabase] - Function start |`);
     const
         connectionOptions: ConnectionOptions = {
             host: process.env.MYSQL_HOST,
@@ -19,7 +21,7 @@ export async function initDatabase() {
             password: process.env.MYSQL_ROOT_PASSWORD
         };
 
-    console.log('Connecting to MySQL as root...');
+    console.log(`[${new Date().toISOString()}] [INFO] [initDatabase] - Connecting to MySQL as root |`);
     const connection = await createConnection(connectionOptions);
 
     const createDatabaseSql = `CREATE DATABASE IF NOT EXISTS \`${process.env.MYSQL_DATABASE}\`;`,
@@ -29,59 +31,50 @@ export async function initDatabase() {
         grantAllPrivilegesSql = `GRANT ALL PRIVILEGES ON \`${process.env.MYSQL_DATABASE}\`.* TO '${process.env.MYSQL_USER}'@'%';`;
 
     await connection.beginTransaction();
-    console.log('Transaction started for database and user creation...');
+    console.log(`[${new Date().toISOString()}] [INFO] [initDatabase] - Transaction started for database and user creation |`);
     try {
-        console.log('Creating database...');
+        console.log(`[${new Date().toISOString()}] [DEBUG] [initDatabase] - Creating database |`);
         await connection.execute(createDatabaseSql);
-        console.log('Creating user...');
+        console.log(`[${new Date().toISOString()}] [DEBUG] [initDatabase] - Creating user |`);
         await connection.execute(createUserSql);
-        console.log('Granting USAGE privileges...');
+        console.log(`[${new Date().toISOString()}] [DEBUG] [initDatabase] - Granting USAGE privileges |`);
         await connection.execute(grantUsageSql);
-        console.log('Altering user settings...');
+        console.log(`[${new Date().toISOString()}] [DEBUG] [initDatabase] - Altering user settings |`);
         await connection.execute(alterUserSql);
-        console.log('Granting ALL PRIVILEGES on database...');
+        console.log(`[${new Date().toISOString()}] [DEBUG] [initDatabase] - Granting ALL PRIVILEGES on database |`);
         await connection.execute(grantAllPrivilegesSql);
 
         await connection.commit();
-        console.log('Database and user initialization committed successfully.');
+        console.log(`[${new Date().toISOString()}] [INFO] [initDatabase] - Database and user initialization committed successfully |`);
     } catch (error) {
         await connection.rollback();
-        console.error('Error during database/user initialization, rolled back.', error);
+        console.error(`[${new Date().toISOString()}] [ERROR] [initDatabase] - Error during database/user initialization, rolled back | ${String(error)}`);
         throw error;
     } finally {
         await connection.end();
-        console.log('Root connection closed.');
+        console.log(`[${new Date().toISOString()}] [INFO] [initDatabase] - Root connection closed |`);
     }
 }
 
 export async function tablesInit() {
-    const createLineUsersTableSql = `
-CREATE TABLE IF NOT EXISTS line_users (
-    user_id VARCHAR(50) NOT NULL PRIMARY KEY,
-    display_name VARCHAR(100) NOT NULL,
-    picture_url TEXT,
-    status_message TEXT,
-    language VARCHAR(10),
-    created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-`.trim();
-
-    console.log('Getting connection from pool...');
-    const connection = await userPool.getConnection();
+    console.log(`[${new Date().toISOString()}] [INFO] [tablesInit] - Function start |`);
+    console.log(`[${new Date().toISOString()}] [INFO] [tablesInit] - Getting connection from pool |`);
+    const connection: PoolConnection = await userPool.getConnection();
     await connection.beginTransaction();
-    console.log('Transaction started for table creation...');
+    console.log(`[${new Date().toISOString()}] [INFO] [tablesInit] - Transaction started for table creation |`);
     try {
-        console.log('Creating linr_users table...');
+        console.log(`[${new Date().toISOString()}] [DEBUG] [tablesInit] - Creating line_users table |`);
         await connection.execute(createLineUsersTableSql);
         await connection.commit();
-        console.log('Table creation committed successfully.');
+        console.log(`[${new Date().toISOString()}] [INFO] [tablesInit] - Table creation committed successfully |`);
     } catch (error) {
         await connection.rollback();
-        console.error('Error during table creation, rolled back.', error);
+        console.error(`[${new Date().toISOString()}] [ERROR] [tablesInit] - Error during table creation, rolled back | ${String(error)}`);
         throw error;
     } finally {
         connection.release();
-        console.log('Pool connection released.');
+        console.log(`[${new Date().toISOString()}] [INFO] [tablesInit] - Pool connection released |`);
     }
 }
+
+export default userPool;
