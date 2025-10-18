@@ -1,0 +1,38 @@
+services:
+    frpc:
+        container_name: dev_frpc
+        image: docker.io/fatedier/frpc:v0.65.0
+        restart: always
+        volumes:
+            - ./frpc.toml:/etc/frp/frpc.toml
+        command: -c /etc/frp/frpc.toml
+    mysql:
+        container_name: dev_mysql
+        image: docker.io/library/mysql:8
+        restart: always
+        ports:
+            - 3306:3306
+        networks:
+            - mysql
+        volumes:
+            - mysql:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+    phpmyadmin:
+        container_name: dev_phpmyadmin
+        image: docker.io/library/phpmyadmin:5
+        restart: always
+        ports:
+            - "8000:80"
+        networks:
+            - mysql
+        environment:
+            PMA_HOST: dev_mysql
+
+volumes:
+    mysql:
+        name: dev_mysql
+
+networks:
+    mysql:
+        name: dev_mysql
