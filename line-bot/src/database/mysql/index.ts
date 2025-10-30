@@ -1,6 +1,6 @@
 import { ConnectionOptions, createConnection, createPool, PoolConnection } from 'mysql2/promise';
 import { createLineUsersTableSql } from './line_users';
-import { createChatSummariesTableSql } from './chat_summaries';
+import { createChatSummariesTableSql } from './chat_history';
 
 const
     userConnectionOptions: ConnectionOptions = {
@@ -57,7 +57,7 @@ export async function initDatabase() {
     }
 }
 
-export async function tablesInit() {
+export async function initTables() {
     console.log(`[${new Date().toISOString()}] [INFO] [tablesInit] - Function start`);
     console.log(`[${new Date().toISOString()}] [INFO] [tablesInit] - Getting connection from pool`);
     const connection: PoolConnection = await userPool.getConnection();

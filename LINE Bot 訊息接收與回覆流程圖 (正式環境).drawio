@@ -1,0 +1,105 @@
+<mxfile host="65bd71144e">
+    <diagram name="第 1 页" id="7LtjGzAspKShimf80H_t">
+        <mxGraphModel dx="1132" dy="633" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-33" value="LINE Bot 訊息處理與回覆流程 (正式環境)" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="70" width="810" height="1010" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-34" value="使用者 (User)" style="swimlane;fontStyle=0;startSize=30;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-33" vertex="1">
+                    <mxGeometry y="30" width="810" height="350" as="geometry">
+                        <mxRectangle y="30" width="960" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-35" value="起點" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-34" vertex="1">
+                    <mxGeometry x="110" y="90" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-36" value="1. 傳送訊息" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-34" vertex="1">
+                    <mxGeometry x="90" y="230" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-37" value="10. 接收到回覆" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-34" vertex="1">
+                    <mxGeometry x="410" y="230" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-38" value="終點" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f8cecc;strokeColor=#b85450;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-34" vertex="1">
+                    <mxGeometry x="650" y="220" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-39" value="LINE 平台 (LINE Platform)" style="swimlane;fontStyle=0;startSize=30;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-33" vertex="1">
+                    <mxGeometry y="380" width="810" height="350" as="geometry">
+                        <mxRectangle y="60" width="960" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-40" value="3. 發送包含 `replyToken` 的事件" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-39" vertex="1">
+                    <mxGeometry x="60" y="90" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-41" value="8. 驗證請求並準備轉發" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-39" vertex="1">
+                    <mxGeometry x="630" y="90" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-42" value="9. 將訊息傳送給使用者" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-39" vertex="1">
+                    <mxGeometry x="410" y="90" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-59" value="&lt;b&gt;註解 1 (重要安全要求)&lt;/b&gt;&lt;br&gt;Webhook URL 必須為 `https://` 開頭，且您的伺服器必須安裝由&lt;b&gt;受信任的憑證頒發機構 (CA) 簽發的有效 SSL/TLS 憑證&lt;/b&gt;。不接受自簽憑證。" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=16;fillColor=#fff9c4;strokeColor=#fbc02d;fontFamily=Helvetica;fontSize=11;align=left;" parent="jl1xuOUGyrGMeyCC7bFA-39" vertex="1">
+                    <mxGeometry x="180" y="180" width="240" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;dashed=1;strokeColor=#fbc02d;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" parent="jl1xuOUGyrGMeyCC7bFA-39" source="jl1xuOUGyrGMeyCC7bFA-59" target="jl1xuOUGyrGMeyCC7bFA-40" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-43" value="正式伺服器 (Production Server)" style="swimlane;fontStyle=0;startSize=30;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-33" vertex="1">
+                    <mxGeometry y="730" width="810" height="280" as="geometry">
+                        <mxRectangle y="90" width="960" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-44" value="4. 接收 Webhook 事件" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-43" vertex="1">
+                    <mxGeometry x="90" y="90" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-45" value="&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;5. 立即回覆 200 OK 狀態碼&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-43" vertex="1">
+                    <mxGeometry x="270" y="90" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-46" value="&lt;div&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;6. 解析事件並執行業務邏輯&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-43" vertex="1">
+                    <mxGeometry x="450" y="90" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-47" value="7. 呼叫回覆訊息 API&#xa;(/v2/bot/message/reply)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Helvetica;fontSize=12;" parent="jl1xuOUGyrGMeyCC7bFA-43" vertex="1">
+                    <mxGeometry x="630" y="85" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-63" value="&lt;b&gt;註解 2&lt;/b&gt;&lt;br&gt;`replyToken` 具有時效性，僅能使用一次且很快就會失效，必須及時使用。" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=16;fillColor=#fff9c4;strokeColor=#fbc02d;fontFamily=Helvetica;fontSize=11;align=left;" parent="jl1xuOUGyrGMeyCC7bFA-43" vertex="1">
+                    <mxGeometry x="600" y="190" width="180" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;dashed=1;strokeColor=#fbc02d;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="jl1xuOUGyrGMeyCC7bFA-43" source="jl1xuOUGyrGMeyCC7bFA-63" target="jl1xuOUGyrGMeyCC7bFA-47" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=classic;endFill=1;strokeColor=#333333;" parent="1" source="jl1xuOUGyrGMeyCC7bFA-35" target="jl1xuOUGyrGMeyCC7bFA-36" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-49" value="2. 訊息傳送到 LINE 平台&lt;br&gt;&lt;b&gt;安全的 Webhook (HTTPS POST)&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;align=center;verticalAlign=middle;endArrow=classic;endFill=1;strokeColor=#333333;" parent="1" source="jl1xuOUGyrGMeyCC7bFA-36" target="jl1xuOUGyrGMeyCC7bFA-40" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#333333;" parent="1" source="jl1xuOUGyrGMeyCC7bFA-40" target="jl1xuOUGyrGMeyCC7bFA-44" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#333333;" parent="1" source="jl1xuOUGyrGMeyCC7bFA-44" target="jl1xuOUGyrGMeyCC7bFA-45" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#333333;" parent="1" source="jl1xuOUGyrGMeyCC7bFA-45" target="jl1xuOUGyrGMeyCC7bFA-46" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#333333;" parent="1" source="jl1xuOUGyrGMeyCC7bFA-46" target="jl1xuOUGyrGMeyCC7bFA-47" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-55" value="使用 `replyToken`" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;align=center;verticalAlign=middle;endArrow=classic;endFill=1;strokeColor=#333333;" parent="1" source="jl1xuOUGyrGMeyCC7bFA-47" target="jl1xuOUGyrGMeyCC7bFA-41" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#333333;" parent="1" source="jl1xuOUGyrGMeyCC7bFA-41" target="jl1xuOUGyrGMeyCC7bFA-42" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#333333;" parent="1" source="jl1xuOUGyrGMeyCC7bFA-42" target="jl1xuOUGyrGMeyCC7bFA-37" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="jl1xuOUGyrGMeyCC7bFA-58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=classic;endFill=1;strokeColor=#333333;" parent="1" source="jl1xuOUGyrGMeyCC7bFA-37" target="jl1xuOUGyrGMeyCC7bFA-38" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

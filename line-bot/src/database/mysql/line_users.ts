@@ -1,4 +1,4 @@
-import { PoolConnection } from 'mysql2/promise';
+import { PoolConnection, QueryResult, RowDataPacket } from 'mysql2/promise';
 import userPool from '.';
 
 export const createLineUsersTableSql = `
@@ -32,9 +32,8 @@ export function lineUserProfileToLineUser(lineUserProfile: any): LineUser {
     };
 }
 
-export async function upsertUserProfile(userProfile: LineUser) {
+export async function upsertUserProfile(userProfile: LineUser): Promise<void> {
     console.log(`[${new Date().toISOString()}] [INFO] [upsertUserProfile] - Function start | userId=${userProfile.userId}`);
-
     const sqlStatement = `
 INSERT INTO line_users (user_id, display_name, picture_url, status_message, language)
 VALUES (?, ?, ?, ?, ?)
@@ -44,9 +43,7 @@ ON DUPLICATE KEY UPDATE
     status_message = VALUES(status_message),
     language = VALUES(language),
     updated_time = CURRENT_TIMESTAMP;`.trim();
-
     console.log(`[${new Date().toISOString()}] [DEBUG] [upsertUserProfile] - SQL statement prepared`);
-
     const values: any = [
         userProfile.userId,
         userProfile.displayName,
@@ -54,33 +51,55 @@ ON DUPLICATE KEY UPDATE
         userProfile.statusMessage,
         userProfile.language
     ];
-
     console.log(`[${new Date().toISOString()}] [DEBUG] [upsertUserProfile] - Values bound | userId=${userProfile.userId}`);
-
     const connection: PoolConnection = await userPool.getConnection();
     console.log(`[${new Date().toISOString()}] [INFO] [upsertUserProfile] - DB connection acquired | userId=${userProfile.userId}`);
-
     await connection.beginTransaction();
     console.log(`[${new Date().toISOString()}] [INFO] [upsertUserProfile] - Transaction started | userId=${userProfile.userId}`);
-
     try {
         console.log(`[${new Date().toISOString()}] [INFO] [upsertUserProfile] - Executing SQL | userId=${userProfile.userId}`);
-
-        const [result] = await connection.query(sqlStatement, values);
+        await connection.query(sqlStatement, values);
         console.log(`[${new Date().toISOString()}] [INFO] [upsertUserProfile] - Query executed successfully | userId=${userProfile.userId}`);
-
         await connection.commit();
         console.log(`[${new Date().toISOString()}] [INFO] [upsertUserProfile] - Transaction committed | userId=${userProfile.userId}`);
-
-        return result;
-    } catch (err) {
+    } catch (error) {
         await connection.rollback();
-        console.log(
-            `[${new Date().toISOString()}] [ERROR] [upsertUserProfile] - Transaction rolled back | userId=${userProfile.userId} | error=${(err as Error).message}`
-        );
-        throw err;
+        console.log(`[${new Date().toISOString()}] [ERROR] [upsertUserProfile] - Transaction rolled back | userId=${userProfile.userId} | error=${(error as Error).message}`);
+        throw error;
     } finally {
         await connection.release();
         console.log(`[${new Date().toISOString()}] [INFO] [upsertUserProfile] - Connection released | userId=${userProfile.userId}`);
     }
+}
+
+export async function selectUserProfileById(userId: string): Promise<LineUser | null> {
+    let result: LineUser | null = null;
+    const sqlStatement = `
+SELECT * FROM line_users WHERE user_id = ?;`.trim();
+    const values: any = [
+        userId
+    ];
+    const connection: PoolConnection = await userPool.getConnection();
+    await connection.beginTransaction();
+    try {
+        const queryResult: RowDataPacket[] = (await connection.query(sqlStatement, values)).at(0) as RowDataPacket[];
+        if (queryResult.length > 0) {
+            result = {
+                userId: queryResult[0].user_id,
+                displayName: queryResult[0].display_name,
+                pictureUrl: queryResult[0].picture_url,
+                statusMessage: queryResult[0].status_message,
+                language: queryResult[0].language,
+                createdTime: queryResult[0].created_time,
+                updatedTime: queryResult[0].updated_time
+            };
+        }
+        await connection.commit();
+    } catch (error) {
+        await connection.rollback();
+        throw error;
+    } finally {
+        await connection.release();
+    }
+    return result;
 }
