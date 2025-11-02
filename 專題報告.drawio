@@ -1,0 +1,309 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.8 Chrome/140.0.7339.240 Electron/38.4.0 Safari/537.36" version="28.2.8" pages="3">
+  <diagram name="3.1.1 系統總體架構圖" id="8sPF2AVPwSnY1atxRMnx">
+    <mxGraphModel dx="1188" dy="701" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-1" value="使用者介面層" style="swimlane;startSize=30;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="260" y="100" width="660" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-2" value="農民/使用者" style="shape=umlactor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" parent="tEPajQ4s_R5Qlog2gH2X-1" vertex="1">
+          <mxGeometry x="80" y="47.5" width="40" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-3" value="LINE Bot 介面&lt;br&gt;（Messaging API）" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="tEPajQ4s_R5Qlog2gH2X-1" vertex="1">
+          <mxGeometry x="265" y="40" width="150" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-15" value="交談訊息傳遞&lt;br&gt;(文字、圖片)" style="endArrow=classic;startArrow=classic;html=1;" parent="tEPajQ4s_R5Qlog2gH2X-1" source="tEPajQ4s_R5Qlog2gH2X-3" target="tEPajQ4s_R5Qlog2gH2X-2" edge="1">
+          <mxGeometry x="-0.0001" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="40" as="sourcePoint" />
+            <mxPoint x="40" y="140" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-4" value="智慧決策與雲端服務層" style="swimlane;startSize=30;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="260" y="300" width="660" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="ulmooy11JrRB-t216WCT-1" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;" parent="tEPajQ4s_R5Qlog2gH2X-4" source="tEPajQ4s_R5Qlog2gH2X-5" target="tEPajQ4s_R5Qlog2gH2X-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ulmooy11JrRB-t216WCT-2" value="疫病判別" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="ulmooy11JrRB-t216WCT-1" vertex="1" connectable="0">
+          <mxGeometry x="0.0232" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-5" value="Gemini AI Agent&lt;br&gt;（知識諮詢核心）" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="tEPajQ4s_R5Qlog2gH2X-4" vertex="1">
+          <mxGeometry x="260" y="35" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-6" value="Azure Custom Vision&lt;br&gt;（疫病模型推論）" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="tEPajQ4s_R5Qlog2gH2X-4" vertex="1">
+          <mxGeometry x="480" y="170" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-7" value="雲端資料庫&lt;br&gt;（數據、履歷、排程）" style="shape=datastore;whiteSpace=wrap;html=1;fillColor=#fcd9b7;strokeColor=#d6802e;" parent="tEPajQ4s_R5Qlog2gH2X-4" vertex="1">
+          <mxGeometry x="280" y="195" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-8" value="Google Search／&lt;div&gt;氣象資訊／農業知識庫&lt;br&gt;（知識邊界擴展工具）&lt;/div&gt;" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="tEPajQ4s_R5Qlog2gH2X-4" vertex="1">
+          <mxGeometry x="60" y="170" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-10" value="物聯網與現場控制層" style="swimlane;startSize=30;horizontal=0;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+          <mxGeometry x="260" y="630" width="660" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-11" value="Raspberry Pi&lt;br&gt;（邊緣閘道器）" style="shape=cube;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f0a30a;strokeColor=#9D7308;fontColor=#000000;labelPosition=center;verticalLabelPosition=middle;align=center;verticalAlign=middle;labelBackgroundColor=light-dark(#f0a30a, #ededed);textShadow=0;" parent="tEPajQ4s_R5Qlog2gH2X-10" vertex="1">
+          <mxGeometry x="290" y="42.5" width="95" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-12" value="環境感測器&lt;br&gt;(溫濕度、光照)" style="shape=cylinder;html=1;fillColor=#e6ccff;strokeColor=#9933ff;labelBackgroundColor=light-dark(#e6ccff, #ededed);whiteSpace=wrap;" parent="tEPajQ4s_R5Qlog2gH2X-10" vertex="1">
+          <mxGeometry x="110" y="57.5" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-13" value="PLC&lt;br&gt;（自動化控制器）" style="shape=card;whiteSpace=wrap;html=1;fillColor=#cdeb8b;strokeColor=#38761d;" parent="tEPajQ4s_R5Qlog2gH2X-10" vertex="1">
+          <mxGeometry x="510" y="57.5" width="90" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-18" value="交談訊息傳遞&lt;br&gt;(文字、圖片)" style="endArrow=classic;html=1;startArrow=classic;startFill=1;spacing=2;" parent="1" source="tEPajQ4s_R5Qlog2gH2X-3" target="tEPajQ4s_R5Qlog2gH2X-5" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="620" y="310" as="sourcePoint" />
+            <mxPoint x="440" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-19" value="農業知識檢索" style="endArrow=classic;startArrow=classic;html=1;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="tEPajQ4s_R5Qlog2gH2X-5" target="tEPajQ4s_R5Qlog2gH2X-8" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="390" as="sourcePoint" />
+            <mxPoint x="350" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-20" value="田區資訊查詢&lt;div&gt;控制指令設置／排程&lt;/div&gt;&lt;div&gt;履歷資訊新增&lt;/div&gt;" style="endArrow=classic;startArrow=classic;html=1;" parent="1" source="tEPajQ4s_R5Qlog2gH2X-5" target="tEPajQ4s_R5Qlog2gH2X-7" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="410" as="sourcePoint" />
+            <mxPoint x="580" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-22" value="數據上傳 (實時溫濕度/光照)&lt;div&gt;取得控制指令並執行&lt;/div&gt;" style="endArrow=classic;html=1;startArrow=classic;startFill=1;" parent="1" source="tEPajQ4s_R5Qlog2gH2X-11" target="tEPajQ4s_R5Qlog2gH2X-7" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="590" y="630" as="sourcePoint" />
+            <mxPoint x="590" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-23" value="數據採集" style="endArrow=classic;html=1;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" parent="1" source="tEPajQ4s_R5Qlog2gH2X-12" target="tEPajQ4s_R5Qlog2gH2X-11" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="480" y="770" as="sourcePoint" />
+            <mxPoint x="570" y="770" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tEPajQ4s_R5Qlog2gH2X-26" value="執行指令&lt;div&gt;控制狀態回報&lt;/div&gt;" style="endArrow=classic;html=1;dashed=1;startArrow=classic;startFill=1;" parent="1" source="tEPajQ4s_R5Qlog2gH2X-11" target="tEPajQ4s_R5Qlog2gH2X-13" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="630" y="760" as="sourcePoint" />
+            <mxPoint x="760" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="Yc3-C0CmmMMmGtWm1se4" name="3.1.2 系統使用案例圖">
+    <mxGraphModel dx="1426" dy="841" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-1" value="&lt;b&gt;農民/使用者&lt;/b&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-2" value="&lt;b&gt;進行疫病影像判別&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 11px&quot;&gt;（Azure Custom Vision）&lt;/span&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="160" y="40" width="240" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-3" value="&lt;b&gt;即時農業知識諮詢&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 11px&quot;&gt;（Gemini Agent / Google Search）&lt;/span&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="160" y="100" width="240" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-4" value="&lt;b&gt;實時環境數據查詢&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 11px&quot;&gt;（溫濕度、光照）&lt;/span&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="160" y="160" width="240" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-5" value="&lt;b&gt;設定/執行自動化控制&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 11px&quot;&gt;（自動澆水 / PLC）&lt;/span&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="160" y="220" width="240" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-6" value="&lt;b&gt;建構作物數位化履歷&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 11px&quot;&gt;（記錄生長、用藥、施肥）&lt;/span&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="160" y="280" width="240" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-7" value="&lt;b&gt;規劃農事工作排程&lt;/b&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="160" y="340" width="240" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-8" value="" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pyw8l5mfVwDeI2z8MxJu-1" target="pyw8l5mfVwDeI2z8MxJu-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint y="-350" as="sourcePoint" />
+            <mxPoint x="200" y="-480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-9" value="" style="endArrow=none;html=1;entryDx=0;entryDy=0;entryX=0;entryY=0.5;" edge="1" parent="1" source="pyw8l5mfVwDeI2z8MxJu-1" target="pyw8l5mfVwDeI2z8MxJu-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint y="-350" as="sourcePoint" />
+            <mxPoint x="200" y="-480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-10" value="" style="endArrow=none;html=1;entryDx=0;entryDy=0;entryX=0;entryY=0.5;" edge="1" parent="1" source="pyw8l5mfVwDeI2z8MxJu-1" target="pyw8l5mfVwDeI2z8MxJu-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint y="-350" as="sourcePoint" />
+            <mxPoint x="200" y="-480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-11" value="" style="endArrow=none;html=1;entryDx=0;entryDy=0;entryX=0;entryY=0.5;" edge="1" parent="1" source="pyw8l5mfVwDeI2z8MxJu-1" target="pyw8l5mfVwDeI2z8MxJu-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint y="-350" as="sourcePoint" />
+            <mxPoint x="200" y="-480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-12" value="" style="endArrow=none;html=1;entryDx=0;entryDy=0;entryX=0;entryY=0.5;" edge="1" parent="1" source="pyw8l5mfVwDeI2z8MxJu-1" target="pyw8l5mfVwDeI2z8MxJu-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint y="-350" as="sourcePoint" />
+            <mxPoint x="200" y="-480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pyw8l5mfVwDeI2z8MxJu-13" value="" style="endArrow=none;html=1;entryDx=0;entryDy=0;entryX=0;entryY=0.5;" edge="1" parent="1" source="pyw8l5mfVwDeI2z8MxJu-1" target="pyw8l5mfVwDeI2z8MxJu-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint y="-350" as="sourcePoint" />
+            <mxPoint x="200" y="-480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="fMGm560XCUg9yiPgtorN" name="3.1.5-1 知識與決策流">
+    <mxGraphModel dx="815" dy="481" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-54" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-20" target="6hpytB_VyR0S_Ka5t27U-26" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-20" value="農民/使用者" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="50" y="45" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-23" value="Azure Custom Vision&lt;br&gt;(疫病模型推論)" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="380" y="470" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-24" target="6hpytB_VyR0S_Ka5t27U-42" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-24" value="Google Search&lt;br&gt;(知識擴展工具)" style="shape=process;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="205" y="475" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-25" target="6hpytB_VyR0S_Ka5t27U-64" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-25" value="雲端資料庫&lt;br&gt;(數據/履歷/排程)" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="540" y="475" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-26" value="起始：農民發送請求&lt;br&gt;(文字諮詢或圖片上傳)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="170" y="40" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-63" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-32" target="6hpytB_VyR0S_Ka5t27U-47" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-32" value="Agent 整合模型推論診斷結果，生成回覆" style="process;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="390" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-33" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" parent="1" source="6hpytB_VyR0S_Ka5t27U-23" target="6hpytB_VyR0S_Ka5t27U-32" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="235" y="680" as="sourcePoint" />
+            <mxPoint x="235" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-42" target="6hpytB_VyR0S_Ka5t27U-47" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="265" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-42" value="Agent 整合知識庫與數據，生成回覆" style="process;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="205" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-47" value="結束：結果或建議回傳至 LINE Bot 介面" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="360" y="640" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-50" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;Gemini AI Agent&lt;/span&gt;&lt;br style=&quot;font-weight: 400;&quot;&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;(知識諮詢核心)&lt;/span&gt;" style="swimlane;whiteSpace=wrap;html=1;startSize=45;fillColor=#dae8fc;strokeColor=#6c8ebf;flipH=0;direction=east;align=center;" parent="1" vertex="1">
+          <mxGeometry x="150" y="270" width="420" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-53" value="向使用者&lt;div&gt;詢問圖片用途&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;" parent="6hpytB_VyR0S_Ka5t27U-50" vertex="1">
+          <mxGeometry x="230" y="80" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-36" value="Agent 判斷是否&lt;div&gt;需要調用工具？&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="6hpytB_VyR0S_Ka5t27U-50" vertex="1">
+          <mxGeometry x="30" y="70" width="170" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-29" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" source="6hpytB_VyR0S_Ka5t27U-26" target="6hpytB_VyR0S_Ka5t27U-28" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="385" y="110" as="sourcePoint" />
+            <mxPoint x="385" y="155" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-52" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-28" target="6hpytB_VyR0S_Ka5t27U-51" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-28" target="6hpytB_VyR0S_Ka5t27U-36" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-28" value="判斷訊息類型&lt;br&gt;(文字諮詢 / 圖片判別)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="150" y="150" width="170" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-51" target="6hpytB_VyR0S_Ka5t27U-53" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450" y="270" />
+              <mxPoint x="450" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-51" value="暫存圖片" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="380" y="168.75" width="110" height="47.5" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-53" target="6hpytB_VyR0S_Ka5t27U-23" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-70" value="疫病診斷諮詢" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="6hpytB_VyR0S_Ka5t27U-58" vertex="1" connectable="0">
+          <mxGeometry x="-0.481" y="1" relative="1" as="geometry">
+            <mxPoint x="-37" y="-6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-53" target="6hpytB_VyR0S_Ka5t27U-25" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-71" value="圖片標籤建立" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="6hpytB_VyR0S_Ka5t27U-59" vertex="1" connectable="0">
+          <mxGeometry x="-0.8162" y="-2" relative="1" as="geometry">
+            <mxPoint x="23" y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-36" target="6hpytB_VyR0S_Ka5t27U-47" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="380" />
+              <mxPoint x="170" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-69" value="否" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="6hpytB_VyR0S_Ka5t27U-60" vertex="1" connectable="0">
+          <mxGeometry x="-0.8308" y="1" relative="1" as="geometry">
+            <mxPoint x="9" y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-61" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-36" target="6hpytB_VyR0S_Ka5t27U-24" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-68" value="是 (包含工作排程、履歷查詢)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="6hpytB_VyR0S_Ka5t27U-61" vertex="1" connectable="0">
+          <mxGeometry x="-0.6185" y="2" relative="1" as="geometry">
+            <mxPoint x="73" y="20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="6hpytB_VyR0S_Ka5t27U-64" target="6hpytB_VyR0S_Ka5t27U-47" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6hpytB_VyR0S_Ka5t27U-64" value="Agent 整合作業結果，生成回覆" style="process;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="540" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="RvmII-_XrGowMp7YIDht-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6hpytB_VyR0S_Ka5t27U-36" target="6hpytB_VyR0S_Ka5t27U-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="265" y="440" />
+              <mxPoint x="600" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
