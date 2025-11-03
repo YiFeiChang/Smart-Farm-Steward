@@ -1,6 +1,6 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.8 Chrome/140.0.7339.240 Electron/38.4.0 Safari/537.36" version="28.2.8" pages="3">
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.8 Chrome/140.0.7339.240 Electron/38.4.0 Safari/537.36" version="28.2.8" pages="5">
   <diagram name="3.1.1 系統總體架構圖" id="8sPF2AVPwSnY1atxRMnx">
-    <mxGraphModel dx="1188" dy="701" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1426" dy="841" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -302,6 +302,168 @@
               <mxPoint x="600" y="440" />
             </Array>
           </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="eLXV8OoiQsNmUJJOiyOJ" name="3.1.5-2 數據監控流">
+    <mxGraphModel dx="652" dy="792" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-2" value="環境感測器" style="swimlane;startSize=30;horizontal=0;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="450" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-3" value="1. 採集&lt;br&gt;（溫濕度、光照等&lt;div&gt;實時數據）&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="4AKJ8i5fCL0AGEFKKxcC-2">
+          <mxGeometry x="60" y="30" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-4" value="Raspberry Pi&#xa;(邊緣閘道器)" style="swimlane;startSize=30;horizontal=0;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="450" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-5" value="2. 傳輸&lt;br&gt;（接收感測器數據）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="4AKJ8i5fCL0AGEFKKxcC-4">
+          <mxGeometry x="60" y="30" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-6" value="雲端資料庫" style="swimlane;startSize=30;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="450" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-7" value="3. 上傳 / 寫入&lt;br&gt;（實時儲存至資料庫）" style="shape=cylinder;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;labelBackgroundColor=light-dark(#dae8fc, #ededed);" vertex="1" parent="4AKJ8i5fCL0AGEFKKxcC-6">
+          <mxGeometry x="60" y="30" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-8" value="6. 讀取&lt;br&gt;（讀取最新的環境數據）" style="shape=cylinder;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;labelBackgroundColor=light-dark(#dae8fc, #ededed);" vertex="1" parent="4AKJ8i5fCL0AGEFKKxcC-6">
+          <mxGeometry x="270" y="30" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-9" value="LINE Bot" style="swimlane;startSize=30;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="460" width="450" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-10" value="5&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;. LINE Bot 接收請求&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="4AKJ8i5fCL0AGEFKKxcC-9">
+          <mxGeometry x="270" y="30" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-11" value="7. 結束&lt;br&gt;（數據回傳並顯示）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="4AKJ8i5fCL0AGEFKKxcC-9">
+          <mxGeometry x="60" y="30" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-12" value="農民/使用者" style="swimlane;startSize=30;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="580" width="450" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-13" value="4. 查詢請求&lt;br&gt;（發送環境數據實時&lt;div&gt;查詢請求）&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="4AKJ8i5fCL0AGEFKKxcC-12">
+          <mxGeometry x="270" y="30" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-14" value="8. 實時掌握&lt;br&gt;（農民掌握現場情況）" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="4AKJ8i5fCL0AGEFKKxcC-12">
+          <mxGeometry x="60" y="30" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-17" value="數據" style="endArrow=classic;html=1;" edge="1" parent="1" source="4AKJ8i5fCL0AGEFKKxcC-3" target="4AKJ8i5fCL0AGEFKKxcC-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-525" y="230" as="sourcePoint" />
+            <mxPoint x="-525" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-18" value="數據" style="endArrow=classic;html=1;" edge="1" parent="1" source="4AKJ8i5fCL0AGEFKKxcC-5" target="4AKJ8i5fCL0AGEFKKxcC-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-525" y="350" as="sourcePoint" />
+            <mxPoint x="-525" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-21" value="讀取請求" style="endArrow=classic;html=1;" edge="1" parent="1" source="4AKJ8i5fCL0AGEFKKxcC-10" target="4AKJ8i5fCL0AGEFKKxcC-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-175" y="500" as="sourcePoint" />
+            <mxPoint x="-175" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-22" value="最新數據" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;curved=0;" edge="1" parent="1" source="4AKJ8i5fCL0AGEFKKxcC-8" target="4AKJ8i5fCL0AGEFKKxcC-11">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-175" y="350" as="sourcePoint" />
+            <mxPoint x="-175" y="320" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="280" y="400" />
+              <mxPoint x="280" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-20" value="查詢請求" style="endArrow=classic;html=1;" edge="1" parent="1" source="4AKJ8i5fCL0AGEFKKxcC-13" target="4AKJ8i5fCL0AGEFKKxcC-10">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-175" y="620" as="sourcePoint" />
+            <mxPoint x="-175" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-23" value="實時數據" style="endArrow=classic;html=1;" edge="1" parent="1" source="4AKJ8i5fCL0AGEFKKxcC-11" target="4AKJ8i5fCL0AGEFKKxcC-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-175" y="620" as="sourcePoint" />
+            <mxPoint x="-175" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-24" value="&lt;span style=&quot;font-weight: 700; text-align: left;&quot;&gt;數據上傳流&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-weight: 700; text-align: left;&quot;&gt;(Data Upload Flow)&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="100" y="40" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="4AKJ8i5fCL0AGEFKKxcC-25" value="&lt;span style=&quot;font-weight: 700;&quot;&gt;數據查詢流&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-weight: 700;&quot;&gt;(Data Query Flow)&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="310" y="40" width="150" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="J9iqmGLGezXKYgxeBm2J" name="3.1.5-3 自動化控制流">
+    <mxGraphModel dx="1388" dy="701" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-2" value="&lt;b&gt;1. 觸發 (Trigger)&lt;/b&gt;&lt;br&gt;&lt;br&gt;觸發條件包括：感測器數據達到&lt;br&gt;預設閾值、預設排程到達、&lt;br&gt;或農民手動指令。&lt;hr&gt;&lt;i&gt;涉及組件：雲端資料庫、使用者&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="250" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-3" value="觸發條件上報" style="endArrow=classic;html=1;" edge="1" parent="1" source="UI97_lbdpvDw-j3Kv0Oo-2" target="UI97_lbdpvDw-j3Kv0Oo-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="165" y="140" as="sourcePoint" />
+            <mxPoint x="165" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-4" value="&lt;b&gt;2. 決策 (Decision)&lt;/b&gt;&lt;br&gt;&lt;br&gt;雲端決策邏輯模組根據觸發條件，&lt;br&gt;生成控制決策（例如：判斷需執行澆水）。&lt;hr&gt;&lt;i&gt;涉及組件：雲端決策邏輯&lt;/i&gt;" style="shape=process;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="250" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-5" value="生成控制指令" style="endArrow=classic;html=1;" edge="1" parent="1" source="UI97_lbdpvDw-j3Kv0Oo-4" target="UI97_lbdpvDw-j3Kv0Oo-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="165" y="280" as="sourcePoint" />
+            <mxPoint x="165" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-6" value="&lt;b&gt;3. 下發指令 (Command Issuance)&lt;/b&gt;&lt;br&gt;&lt;br&gt;控制指令（如：打開水泵）透過網路&lt;br&gt;下發至現場的 Raspberry Pi。&lt;hr&gt;&lt;i&gt;涉及組件：雲端服務層、&lt;/i&gt;&lt;div&gt;&lt;i&gt;Raspberry Pi&lt;/i&gt;&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="320" width="250" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-7" value="指令傳輸" style="endArrow=classic;html=1;" edge="1" parent="1" source="UI97_lbdpvDw-j3Kv0Oo-6" target="UI97_lbdpvDw-j3Kv0Oo-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="165" y="420" as="sourcePoint" />
+            <mxPoint x="165" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-8" value="&lt;b&gt;4. 執行指令 (Command Execution)&lt;/b&gt;&lt;br&gt;&lt;br&gt;Raspberry Pi 接收指令後，&lt;br&gt;將控制訊號傳輸給 PLC。&lt;hr&gt;&lt;i&gt;涉及組件：Raspberry Pi&lt;/i&gt;" style="shape=process;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="460" width="250" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-9" value="控制訊號" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="UI97_lbdpvDw-j3Kv0Oo-8" target="UI97_lbdpvDw-j3Kv0Oo-10">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="165" y="550" as="sourcePoint" />
+            <mxPoint x="165" y="580" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="320" y="505" />
+              <mxPoint x="320" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-10" value="&lt;b&gt;5. 操作 (Operation)&lt;/b&gt;&lt;br&gt;&lt;br&gt;PLC 執行高可靠度的現場操作&lt;br&gt;（例如：控制繼電器模擬自動澆水）。&lt;hr&gt;&lt;i&gt;涉及組件：PLC&lt;/i&gt;" style="shape=process;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="350" y="180" width="250" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-11" value="執行完畢/狀態回傳" style="endArrow=classic;html=1;" edge="1" parent="1" source="UI97_lbdpvDw-j3Kv0Oo-10" target="UI97_lbdpvDw-j3Kv0Oo-12">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="475" y="300" as="sourcePoint" />
+            <mxPoint x="475" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-12" value="&lt;b&gt;6. 回報 (Report)&lt;/b&gt;&lt;br&gt;&lt;br&gt;PLC 將控制狀態回傳給 Raspberry Pi。&lt;hr&gt;&lt;i&gt;涉及組件：PLC&lt;/i&gt;" style="shape=process;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="350" y="320" width="250" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-13" value="狀態與結果" style="endArrow=classic;html=1;" edge="1" parent="1" source="UI97_lbdpvDw-j3Kv0Oo-12" target="UI97_lbdpvDw-j3Kv0Oo-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="475" y="420" as="sourcePoint" />
+            <mxPoint x="475" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UI97_lbdpvDw-j3Kv0Oo-14" value="&lt;b&gt;7. 記錄 (Logging)&lt;/b&gt;&lt;br&gt;&lt;br&gt;Raspberry Pi 將控制執行的狀態和結果&lt;br&gt;上傳至雲端資料庫進行記錄。&lt;hr&gt;&lt;i&gt;涉及組件：Raspberry Pi、雲端資料庫&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="350" y="460" width="250" height="90" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
