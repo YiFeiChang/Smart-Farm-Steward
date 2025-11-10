@@ -7,6 +7,9 @@ import {
     LineUser
 } from '@/database/mysql/line_users';
 import {
+    WeatherStation, selectWeatherStationById
+} from '@/database/mysql/weather_stations';
+import {
     upsertChatHistory, selectChatHistoryByUserId, ChatHistory
 } from '@/database/mysql/chat_history';
 
@@ -20,9 +23,9 @@ const
                 location: {
                     type: Type.STRING,
                     description: 'The city name, e.g. San Francisco',
-                },
+                }
             },
-            required: ['location'],
+            required: ['location']
         },
     },
     timeFunctionDeclaration: FunctionDeclaration = {
@@ -34,6 +37,20 @@ const
             },
             required: [
             ]
+        }
+    },
+    weatherStationInfoFunctionDeclaration: FunctionDeclaration = {
+        name: 'get_weather_station_info',
+        description: '取得氣象站資訊。',
+        parameters: {
+            type: Type.OBJECT,
+            properties: {
+                stationId: {
+                    type: Type.STRING,
+                    description: '氣象站的識別碼。',
+                }
+            },
+            required: ['stationId']
         }
     };
 
@@ -51,7 +68,8 @@ const
             {
                 functionDeclarations: [
                     weatherFunctionDeclaration,
-                    timeFunctionDeclaration
+                    timeFunctionDeclaration,
+                    weatherStationInfoFunctionDeclaration
                 ]
             }
         ],
@@ -139,6 +157,17 @@ export async function chatFromLine(message: string, userInfo: LineUser): Promise
             switch (call.name) {
                 default:
                     continue;
+                case 'get_weather_station_info':
+                    functionResponse = {
+                        name: 'get_weather_station_info',
+                        response: {
+                            result: {
+                                stationInfo: await selectWeatherStationById(call.args?.stationId as string)
+                            }
+                        }
+                    }
+                    response = await chat.sendMessage({ message: [{ functionResponse: functionResponse }] })
+                    break;
                 case 'get_current_temperature':
                     functionResponse = {
                         name: 'get_current_temperature',
