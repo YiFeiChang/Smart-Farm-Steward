@@ -253,5 +253,5 @@
 | 回報 | PLC 將 控制狀態 回傳給 Raspberry Pi。 | PLC |
 | 記錄 | Raspberry Pi 將控制執行的狀態和結果上傳至 雲端資料庫 進行記錄。 | Raspberry Pi、雲端資料庫 |
 
-![圖 3.1.5-3 自動化控制流流程圖][./report\專題報告-3.1.5-3 自動化控制流.png]  
+![圖 3.1.5-3 自動化控制流流程圖][https://github.com/YiFeiChang/Smart-Farm-Steward/blob/main/report/%E5%B0%88%E9%A1%8C%E5%A0%B1%E5%91%8A-3.1.5-3%20%E8%87%AA%E5%8B%95%E5%8C%96%E6%8E%A7%E5%88%B6%E6%B5%81.png?raw=true]  
 圖 3.1.5-3 自動化控制流流程圖
