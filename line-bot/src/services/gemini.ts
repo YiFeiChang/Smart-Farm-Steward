@@ -166,7 +166,6 @@ export async function chatFromLine(message: string, userInfo: LineUser): Promise
                             }
                         }
                     }
-                    response = await chat.sendMessage({ message: [{ functionResponse: functionResponse }] })
                     break;
                 case 'get_current_temperature':
                     functionResponse = {
@@ -177,15 +176,12 @@ export async function chatFromLine(message: string, userInfo: LineUser): Promise
                             }
                         }
                     }
-                    response = await chat.sendMessage({ message: [{ functionResponse: functionResponse }] })
                     break;
                 case 'get_current_utc_time':
                     functionResponse = {
                         name: 'get_current_utc_time',
                         response: {
-                            result: {
-                                utcTime: now.toISOString()
-                            }
+                            result: `現在的 UTC 時間是 ${now.toISOString()}，回覆給使用者時直接轉換成他的地區時間。`
                         }
                     }
                     break;
@@ -238,7 +234,6 @@ export async function chatTest(userMessage: string) {
                             }
                         }
                     }
-                    response = await chat.sendMessage({ message: [{ functionResponse: functionResponse }] })
                     break;
                 case 'get_current_utc_time':
                     functionResponse = {

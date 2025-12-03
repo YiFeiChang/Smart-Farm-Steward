@@ -2,14 +2,14 @@ services:
     frpc:
         container_name: dev_frpc
         image: docker.io/fatedier/frpc:v0.65.0
-        restart: always
+        restart: unless-stopped
         volumes:
             - ./frpc.toml:/etc/frp/frpc.toml
         command: -c /etc/frp/frpc.toml
     mysql:
         container_name: dev_mysql
         image: docker.io/library/mysql:8
-        restart: always
+        restart: unless-stopped
         ports:
             - 3306:3306
         networks:
@@ -22,7 +22,7 @@ services:
     phpmyadmin:
         container_name: dev_phpmyadmin
         image: docker.io/library/phpmyadmin:5
-        restart: always
+        restart: unless-stopped
         ports:
             - "8000:80"
         networks:
@@ -32,7 +32,7 @@ services:
     mongo:
         container_name: dev_mongo
         image: docker.io/library/mongo:8
-        restart: always
+        restart: unless-stopped
         ports:
             - "27017:27017"
         networks:
@@ -45,7 +45,7 @@ services:
     mongo-express:
         container_name: dev_mongo_express
         image: docker.io/library/mongo-express:1
-        restart: always
+        restart: unless-stopped
         ports:
             - "8001:8081"
         networks:
