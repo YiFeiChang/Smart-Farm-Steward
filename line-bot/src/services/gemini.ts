@@ -12,20 +12,21 @@ import {
 import {
     upsertChatHistory, selectChatHistoryByUserId, ChatHistory
 } from '@/database/mysql/chat_history';
+import axios from 'axios';
 
 const
     weatherFunctionDeclaration: FunctionDeclaration = {
-        name: 'get_current_temperature',
-        description: 'Gets the current temperature for a given location.',
+        name: 'get_weather',
+        description: '取得氣象站資訊。',
         parameters: {
             type: Type.OBJECT,
             properties: {
-                location: {
+                stationName: {
                     type: Type.STRING,
-                    description: 'The city name, e.g. San Francisco',
+                    description: '氣象站名稱，例如「臺南」、「永康」。',
                 }
             },
-            required: ['location']
+            required: ['stationName']
         },
     },
     timeFunctionDeclaration: FunctionDeclaration = {
@@ -38,24 +39,11 @@ const
             required: [
             ]
         }
-    },
-    weatherStationInfoFunctionDeclaration: FunctionDeclaration = {
-        name: 'get_weather_station_info',
-        description: '取得氣象站資訊。',
-        parameters: {
-            type: Type.OBJECT,
-            properties: {
-                stationId: {
-                    type: Type.STRING,
-                    description: '氣象站的識別碼。',
-                }
-            },
-            required: ['stationId']
-        }
     };
 
 const
     maxTokensBeforeSummary: number = parseInt(process.env.GOOGLE_MODEL_MAXTOKENSBEFORESUMMARY ?? '4000'),
+    cwaApiKey: string = process.env.CWA_API_KEY ?? '',
     summaryKeepRounds: number = parseInt(process.env.GOOGLE_MODEL_SUMMARYKEEPROUNDS ?? '20'),
     options: GoogleGenAIOptions = {
         apiKey: process.env.GOOGLE_API_KEY
@@ -68,8 +56,7 @@ const
             {
                 functionDeclarations: [
                     weatherFunctionDeclaration,
-                    timeFunctionDeclaration,
-                    weatherStationInfoFunctionDeclaration
+                    timeFunctionDeclaration
                 ]
             }
         ],
@@ -157,24 +144,39 @@ export async function chatFromLine(message: string, userInfo: LineUser): Promise
             switch (call.name) {
                 default:
                     continue;
-                case 'get_weather_station_info':
-                    functionResponse = {
-                        name: 'get_weather_station_info',
-                        response: {
-                            result: {
-                                stationInfo: await selectWeatherStationById(call.args?.stationId as string)
-                            }
+                case 'get_weather':
+                    const stationName = call.args?.stationName as string;
+                    const weatherResponse = await axios.get('https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-A0003-001', {
+                        params: {
+                            Authorization: cwaApiKey,
+                            StationName: stationName
                         }
-                    }
-                    break;
-                case 'get_current_temperature':
+                    });
                     functionResponse = {
-                        name: 'get_current_temperature',
-                        response: {
+                        name: 'get_weather',
+                        response: {}
+                    };
+                    if (weatherResponse.data?.records?.Station?.length > 0) {
+                        const stationData = weatherResponse.data.records.Station[0];
+                        functionResponse.response = {
                             result: {
-                                temperature: 99.9
+                                stationName: stationData.StationName,
+                                countyName: stationData.GeoInfo.CountyName,
+                                townName: stationData.GeoInfo.TownName,
+                                observationTime: stationData.ObsTime.DateTime,
+                                weather: stationData.WeatherElement.Weather,
+                                temperature: parseFloat(stationData.WeatherElement.AirTemperature),
+                                humidity: parseFloat(stationData.WeatherElement.RelativeHumidity) / 100, // Convert to 0-1 range
+                                windSpeed: parseFloat(stationData.WeatherElement.WindSpeed),
+                                precipitation: parseFloat(stationData.WeatherElement.Now.Precipitation),
+                                uvIndex: parseInt(stationData.WeatherElement.UVIndex, 10)
                             }
-                        }
+                        };
+                    } else {
+                        functionResponse.response = {
+                            error: `找不到氣象站「${stationName}」的即時天氣資訊。`,
+                            suggestion: '請確認氣象站名稱是否正確，或嘗試其他鄰近的氣象站名稱，例如：「臺南」、「善化」。'
+                        };
                     }
                     break;
                 case 'get_current_utc_time':
@@ -203,63 +205,6 @@ export async function chatFromLine(message: string, userInfo: LineUser): Promise
     }
     await upsertChatHistory(chatHistory);
     return result;
-}
-
-export async function chatTest(userMessage: string) {
-    const
-        now: Date = new Date(),
-        userInfo: LineUser = {
-            userId: 'test_user',
-            displayName: '開發者',
-            language: 'zh-tw'
-        };
-    chatConfig.systemInstruction = (chatConfig.systemInstruction as string).replace('{userInfo}', JSON.stringify(userInfo));
-    chatParameters.history = history;
-    const
-        chat: Chat = await ai.chats.create(chatParameters);
-    let response: GenerateContentResponse = await chat.sendMessage({ message: userMessage }),
-        totalTokenCount: number = response.usageMetadata?.totalTokenCount ?? 0;
-    if (response.functionCalls && response.functionCalls.length > 0) {
-        for (const call of response.functionCalls) {
-            let functionResponse: FunctionResponse;
-            switch (call.name) {
-                default:
-                    continue;
-                case 'get_current_temperature':
-                    functionResponse = {
-                        name: 'get_current_temperature',
-                        response: {
-                            result: {
-                                temperature: 99.9
-                            }
-                        }
-                    }
-                    break;
-                case 'get_current_utc_time':
-                    functionResponse = {
-                        name: 'get_current_utc_time',
-                        response: {
-                            result: {
-                                utcTime: now.toISOString()
-                            }
-                        }
-                    }
-                    break;
-            }
-            response = await chat.sendMessage({ message: [{ functionResponse: functionResponse }] })
-        }
-    }
-    history = chat.getHistory();
-    if (totalTokenCount > maxTokensBeforeSummary) {
-        const
-            { keepRounds, summaryRounds } = splitConversationByRounds(history, summaryKeepRounds);
-        if (summaryRounds.length > 0) {
-            const summaryContent: Content | undefined = await summary(summaryRounds);
-            if (summaryContent)
-                history = [summaryContent, ...keepRounds];
-        }
-    }
-    return history;
 }
 
 function splitConversationByRounds(
@@ -314,31 +259,16 @@ async function summary(summaryRounds: Content[]): Promise<Content | undefined> {
     return result;
 }
 
-/**
- * 過濾 newHistory，移除所有在 oldHistory 中出現過的項目。
- * @param newHistory - 較新的或完整的歷史記錄陣列。
- * @param oldHistory - （可選）較舊的或需要被移除的歷史記錄陣列。
- * @returns {Content[]} - 一個新的陣列，僅包含 newHistory 中未出現在 oldHistory 的項目。
- */
 function getUniqueHistory(newHistory: Content[], oldHistory?: Content[]): Content[] {
-    // 如果 oldHistory 不存在或為空陣列，則無需過濾，直接回傳 newHistory。
     if (!oldHistory || oldHistory.length === 0) {
         return newHistory;
     }
-
-    // 為了高效查找，將 oldHistory 中的 Content 物件轉換為 JSON 字串並存入 Set。
-    // 這樣查找的時間複雜度接近 O(1)。
     const oldHistoryStringSet = new Set(
         oldHistory.map(content => JSON.stringify(content))
     );
-
-    // 使用 filter 方法遍歷 newHistory。
-    // 對於 newHistory 中的每個項目，檢查其字串化版本是否存在於 oldHistoryStringSet 中。
-    // 如果不存在（!oldHistoryStringSet.has(...)），則保留該項目。
     const result = newHistory.filter(content => {
         const stringifiedContent = JSON.stringify(content);
         return !oldHistoryStringSet.has(stringifiedContent);
     });
-
     return result;
 }
