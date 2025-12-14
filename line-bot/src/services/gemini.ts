@@ -13,8 +13,25 @@ import {
     upsertChatHistory, selectChatHistoryByUserId, ChatHistory
 } from '@/database/mysql/chat_history';
 import axios from 'axios';
+import { getMessageImage } from '@/services/line';
+import * as fs from 'fs';
+import * as path from 'path';
 
 const
+    imageFunctionDeclaration: FunctionDeclaration = {
+        name: 'save_image',
+        description: '儲存使用者傳送的圖片。',
+        parameters: {
+            type: Type.OBJECT,
+            properties: {
+                messageId: {
+                    type: Type.STRING,
+                    description: 'LINE image Message 的 message ID。',
+                }
+            },
+            required: ['messageId']
+        },
+    },
     weatherFunctionDeclaration: FunctionDeclaration = {
         name: 'get_weather',
         description: '取得氣象站資訊。',
@@ -45,16 +62,20 @@ const
     maxTokensBeforeSummary: number = parseInt(process.env.GOOGLE_MODEL_MAXTOKENSBEFORESUMMARY ?? '4000'),
     cwaApiKey: string = process.env.CWA_API_KEY ?? '',
     summaryKeepRounds: number = parseInt(process.env.GOOGLE_MODEL_SUMMARYKEEPROUNDS ?? '20'),
-    options: GoogleGenAIOptions = {
+    geminiOptions: GoogleGenAIOptions = {
         apiKey: process.env.GOOGLE_API_KEY
     },
-    ai: GoogleGenAI = new GoogleGenAI(options),
+    ai: GoogleGenAI = new GoogleGenAI(geminiOptions),
     chatConfig: GenerateContentConfig = {
         temperature: parseFloat(process.env.GOOGLE_MODEL_TEMPERATURE ?? '0.7'),
         maxOutputTokens: parseInt(process.env.GOOGLE_MODEL_MAX_OUTPUT_TOKENS ?? '1024'),
         tools: [
+            // {
+            //     googleSearch: {},
+            // },
             {
                 functionDeclarations: [
+                    imageFunctionDeclaration,
                     weatherFunctionDeclaration,
                     timeFunctionDeclaration
                 ]
@@ -69,6 +90,7 @@ const
 
 1.  **專注領域**：你的所有回答都必須與農業、農作物、園藝相關。嚴格禁止回答任何無關的話題。
 2.  **語言一致**：你必須全程使用與使用者相同的語言進行對話。
+3.  **LINE 訊息格式解析**：你必須依據使用者傳送的非文字訊息進行自然對話。
 
 # 輸出格式
 
@@ -108,35 +130,37 @@ const
 5. **語言：** 摘要內容必須使用與使用者相同的語言。`.trim()
     },
     chatParameters: CreateChatParameters = {
-        model: process.env.GOOGLE_MODEL ?? 'gemini-2.5-flash',
-        config: chatConfig,
-        history: []
+        model: process.env.GOOGLE_MODEL ?? 'gemini-2.5-flash'
     },
     summaryParameters: GenerateContentParameters = {
         model: process.env.GOOGLE_MODEL ?? 'gemini-2.5-flash',
-        config: summaryConfig,
         contents: []
     };
 
-let history: Content[] | undefined = [];
-
-export async function chatFromLine(message: string, userInfo: LineUser): Promise<Content[] | undefined> {
+export async function chatFromLine(event: any, userInfo: LineUser): Promise<Content[] | undefined> {
     let result: Content[] | undefined = undefined;
     const now: Date = new Date();
-    chatConfig.systemInstruction = (chatConfig.systemInstruction as string).replace('{userInfo}', JSON.stringify(userInfo));
+
+    const userChatConfig: GenerateContentConfig = JSON.parse(JSON.stringify(chatConfig));
+    userChatConfig.systemInstruction = (userChatConfig.systemInstruction as string).replace('{userInfo}', JSON.stringify(userInfo));
+
     let chatHistory: ChatHistory | undefined = await selectChatHistoryByUserId(userInfo.userId);
-    if (chatHistory)
-        chatParameters.history = chatHistory.history ?? [];
-    else {
+    if (!chatHistory) {
         chatHistory = {
             lineUserId: userInfo.userId,
             history: []
         };
-        chatParameters.history = [];
     }
+
+    const userChatParameters: CreateChatParameters = {
+        ...chatParameters,
+        config: userChatConfig,
+        history: chatHistory.history
+    };
+
     const
-        chat: Chat = await ai.chats.create(chatParameters);
-    let response: GenerateContentResponse = await chat.sendMessage({ message: message }),
+        chat: Chat = await ai.chats.create(userChatParameters);
+    let response: GenerateContentResponse = await chat.sendMessage({ message: JSON.stringify(event) }),
         totalTokenCount: number = response.usageMetadata?.totalTokenCount ?? 0;
     if (response.functionCalls && response.functionCalls.length > 0) {
         for (const call of response.functionCalls) {
@@ -144,6 +168,28 @@ export async function chatFromLine(message: string, userInfo: LineUser): Promise
             switch (call.name) {
                 default:
                     continue;
+                case 'save_image':
+                    const messageId = call.args?.messageId as string;
+                    const imageResponse = await getMessageImage(messageId);
+                    if (imageResponse) {
+                        const extension = imageResponse.contentType.split('/')[1] || 'bin';
+                        const saveDir = path.join(process.cwd(), userInfo.userId);
+                        if (!fs.existsSync(saveDir)) {
+                            fs.mkdirSync(saveDir, { recursive: true });
+                        }
+                        const filePath = path.join(saveDir, `${messageId}.${extension}`);
+                        fs.writeFileSync(filePath, imageResponse.buffer);
+                        functionResponse = {
+                            name: 'save_image',
+                            response: { result: '圖片已成功儲存，感謝您的分享！' }
+                        };
+                    } else {
+                        functionResponse = {
+                            name: 'save_image',
+                            response: { error: '圖片下載失敗。' }
+                        };
+                    }
+                    break;
                 case 'get_weather':
                     const stationName = call.args?.stationName as string;
                     const weatherResponse = await axios.get('https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-A0003-001', {
@@ -198,7 +244,7 @@ export async function chatFromLine(message: string, userInfo: LineUser): Promise
     if (totalTokenCount > maxTokensBeforeSummary) {
         const { keepRounds, summaryRounds } = splitConversationByRounds(chatHistory.history, summaryKeepRounds);
         if (summaryRounds.length > 0) {
-            const summaryContent: Content | undefined = await summary(summaryRounds);
+            const summaryContent: Content | undefined = await summary(summaryRounds, summaryConfig);
             if (summaryContent)
                 chatHistory.history = [summaryContent, ...keepRounds];
         }
@@ -248,13 +294,17 @@ function splitConversationByRounds(
     };
 }
 
-async function summary(summaryRounds: Content[]): Promise<Content | undefined> {
+async function summary(summaryRounds: Content[], baseSummaryConfig: GenerateContentConfig): Promise<Content | undefined> {
     let result: Content | undefined = undefined;
-    summaryParameters.contents = [
-        ...summaryRounds,
-        { role: 'user', parts: [{ text: '將以上對話，包含先前的 SUMMARY，進行總結。' }] }
-    ];
-    const summaryResponse: GenerateContentResponse = await ai.models.generateContent(summaryParameters);
+    const userSummaryParameters: GenerateContentParameters = {
+        ...summaryParameters,
+        config: baseSummaryConfig,
+        contents: [
+            ...summaryRounds,
+            { role: 'user', parts: [{ text: '將以上對話，包含先前的 SUMMARY，進行總結。' }] }
+        ]
+    };
+    const summaryResponse: GenerateContentResponse = await ai.models.generateContent(userSummaryParameters);
     result = summaryResponse.candidates?.at(0)?.content;
     return result;
 }

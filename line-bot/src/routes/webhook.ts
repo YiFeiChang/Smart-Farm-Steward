@@ -7,6 +7,10 @@ import { insertLineMessageEventLog } from '@/database/mongo/line_message_event_l
 
 const router = Router();
 
+router.get('/', (_req: Request, res: Response) => {
+    res.status(200).send('Line Bot Webhook is running.');
+});
+
 router.post('/', async (req: Request, res: Response) => {
     let userProfile: LineUser;
     try {
@@ -27,14 +31,14 @@ router.post('/', async (req: Request, res: Response) => {
                     break;
             }
         }
-        return res.status(200);
+        return res.status(200).send('OK');
     } catch (err) {
         return res.status(500).send(err);
     }
 });
 
 async function handleMessageEvent(event: any, userProfile: LineUser) {
-    const uniqueHistory: Content[] | undefined = await chatFromLine(event.message.text, userProfile);
+    const uniqueHistory: Content[] | undefined = await chatFromLine(event, userProfile);
     const messages = (uniqueHistory ?? [])
         .flatMap(content =>
             (content.parts ?? [])
